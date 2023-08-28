@@ -4,12 +4,15 @@
 <!-- === Header Starts === -->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title> BEVGen: Learning to Generate Diverse and Realistic Traffic Scenarios</title>
+    <title> BEVGen: Street-View Image Generation from a Bird’s-Eye View Layout</title>
+    <link type="image/png" sizes="96x96" rel="icon" href="assets/favicon.png">
     <link href="./assets/bootstrap.min.css" rel="stylesheet">
     <link href="./assets/font.css" rel="stylesheet" type="text/css">
     <link href="./assets/style.css" rel="stylesheet" type="text/css">
     <script src="./assets/jquery.min.js"></script>
     <script type="text/javascript" src="assets/corpus.js"></script>
+
+    <!-- <a target="_blank" href="https://icons8.com/icon/7bGlJrKnisOw/car-top-view">Car</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>-->
 
 </head>
 <!-- === Header Ends === -->
@@ -27,9 +30,8 @@
         <table>
             <tr>
                 <td>
-                    <div style="padding-top: 0pt;padding-left: 140pt;padding-bottom: 12pt" class="title" id="lang">
-                        <b> BEVGen: Learning to Generate Diverse<br>
-                            and Realistic Traffic Scenarios </b>
+                    <div style="padding-top: 0pt;padding-left: 140pt;padding-bottom: 12pt; text-align: center" class="title" id="lang" >
+                        <b> BEVGen: Street-View Image Generation from <br>a Bird’s-Eye View Layout </b>
                     </div>
 
                 </td>
@@ -40,10 +42,9 @@
     </div>
     <!-- === Title Ends === -->
     <div class="author">
-        <!-- <p style="text-align:center">IEEE International Conference on Robotics and Automation (ICRA) 2023</p> -->
         <a href="https://aswerdlow.com" target="_blank">Alexander Swerdlow</a>,
-        <a href="https://Quanyili.github.io">Runsheng Xu</a>,&nbsp;
-        <a href="https://pengzhenghao.github.io" target="_blank">Bolei Zhou</a>&nbsp;&nbsp;
+        <a href="https://derrickxunu.github.io/">Runsheng Xu</a>,&nbsp;
+        <a href="https://boleizhou.github.io/" target="_blank">Bolei Zhou</a>&nbsp;&nbsp;
     </div>
 
     <div class="institution" style="font-size: 11pt;">
@@ -54,16 +55,15 @@
     <table border="0" align="center">
         <tr>
             <td align="center" style="padding: 0pt 0 15pt 0">
-                <a class="bar" href="https://metadriverse.github.io/trafficgen/"><b>Webpage</b></a> |
-                <!-- <a class="bar" href="https://youtu.be/jPS93-d6msM"><b>Video</b></a> | -->
+                <a class="bar" href="https://metadriverse.github.io/bevgen/"><b>Webpage</b></a> |
                 <a class="bar" href="https://github.com/alexanderswerdlow/BEVGen"><b>Code</b></a> |
                 <a class="bar" href="https://arxiv.org/abs/2301.04634"><b>Paper</b></a>
             </td>
         </tr>
     </table>
     <center>
-            <img src="assets/argoverse_intro.png" alt="Image 1" width="100%" style="margin-bottom: 10px;">
-            <img src="assets/nuscenes_intro.png" alt="Image 2" width="100%%">
+            <img src="assets/images/argoverse_intro.png" alt="Image 1" width="100.4%" style="margin-bottom: 10px;">
+            <img src="assets/images/nuscenes_intro.png" alt="Image 2" width="100%">
     </center>
 </div>
 
@@ -73,10 +73,10 @@
     <div class="title" id="method">Overview</div>
     <div class="body">
         <div class="teaser">
-            <img src="assets/figure_1.png">
+            <img src="assets/images/figure_1.png">
             <div class="text">
                 <br>
-                Fig. 1 Overview of the proposed method
+                Fig. 1 BEVGen framework: A BEV layout and source multi-view images are encoded to a discrete representation and are flattened before passed to the autoregressive transformer. Spatial embeddings are added to both camera and BEV tokens inside each transformed bloc, the learned pairwise camera bias are added to the attention weights. Weighted CE loss is applied during training, and we pass the tokens to the decoder to obtain generated images during inference.
             </div>
         </div>
         <div class="text">
@@ -84,56 +84,21 @@
                 In this work, we tackle the new task of generating street-view images from a BEV layout and propose a generative model called BEVGen to address the underlying challenges. We develop an autoregressive neural model called BEVGen that generates a set of realistic and spatially consistent images. BEVGen has two technical novelties: (i) it incorporates spatial embeddings using camera instrinsics and extrinsics to allow the model to attend to relevant portions of the images and HD map, and (ii) it contains a novel attention bias and decoding scheme that maintains both image consistency and correspondence.
             </p>
 
-            <div class="teaser" style="width: 105%; margin-left: -25pt">
-                <img src="assets/comp_28_ring_front_center_ring_front_right__0.png">
-                <img src="assets/comp_28_ring_front_center_ring_front_right__1.png">
-                <div class="text">
-                    <br>
-                    Fig. 2: We display correspondences across views. Green lines indicate inliers obtained using RANSAC for filtering. Top: Real images, Bottom: Synthesized images.
-                </div>
-            </div>
-
-            <!-- <p>
-                TrafficGen synthesizes a complete traffic scenario in an autoregressive way.
-                The first step is to place vehicles on the given map.
-                At each iteration, a vehicle is placed by sampling the spatial probability distribution over all the
-                regions in the scene. We visualize current spatial distribution through the iteration-varying heatmap in the above figure.
-At              the end of sampling, a set of N vehicles are placed at the map and forms the traffic snapshot.
-            </p>
-            <p>
-                We then use a motion forecasting model as the trajectory generator since it can output multi-mode diverse
-                samples. However, motion forecasting models cannot be directly used for long trajectory generation,
-                since they are brittle to distributional shift. We sample one possible future trajectory for each
-                vehicle. To mitigate the long-term cumulative error, only the first several steps of the trajectory
-                are used. Then the long trajectories of a vehicle are generated by several rollouts.
-            </p> -->
+            <div class="teaser" style="text-align: center;">
+                <img src="assets/images/3_6a467240b14745cd8ab11701bd4f08d3.png" style="width: 49.5%; display: inline-block; margin-bottom: 7px;">
+                <img src="assets/images/1_8a51ed0367034945927c7c70eda2fd59.png" style="width: 49.5%; display: inline-block; margin-bottom: 7px;">
+                <br>
+                <img src="assets/images/a7e83e3b5cd24948a58c93c66ba54d77.png" style="width: 49.5%; display: inline-block; margin-bottom: 7px;">
+                <img src="assets/images/a0214502bae94c408f317587614cac49.png" style="width: 49.5%; display: inline-block; margin-bottom: 7px;">
+                <br>
+                <img src="assets/images/f8883f89a30a4cafb79e49f6f533e4f5_W4I0EH2L3D.png" style="width: 49.5%; display: inline-block; margin-bottom: 15px;">
+                <img src="assets/images/f8883f89a30a4cafb79e49f6f533e4f5_FZBU6TYAWV.png" style="width: 49.5%; display: inline-block; margin-bottom: 15px;">
+                <br>
+                <div class="text"><br>Fig. 2: Synthesized multi-view images from BEVGen on nuScenes. Image contents are diverse and realistic. The two instances in the bottom row use the same BEV layout for synthesizing the same location in day and night.</div>
+             </div>
         </div>
     </div>
 </div>
-
-
-<!-- <div class="section" style="">
-    <div class="title" id="Parkour Demo">Generating diverse traffic scenarios</div>
-    <p>
-        With different HD maps and traffic light signals as input, TrafficGen can generate diverse traffic scenarios in the video below.
-    </p>
-    <center>
-        <video class="video-container" width="100%" height="300" style="" autoplay
-               muted loop id="parkour_video">
-            <source src="assets/Motion_Primitive_Grids.mp4" type=video/mp4>
-        </video>
-    </center>
-    <p>
-        The following video shows that by sampling many times on the same map, TrafficGen can generate diverse
-        traffic flows.
-    </p>
-    <center>
-        <video class="video-container" width="100%" height="300" style="padding-right: 10pt" autoplay
-               muted loop id="parkour_demo">
-            <source src="assets/parkour.mp4" type=video/mp4>
-        </video>
-    </center>
-</div> -->
 
 <div class="section" style=" text-align: left">
     <div class="title" id="Demo Video">Demo Video</div>
@@ -159,7 +124,6 @@ At              the end of sampling, a set of N vehicles are placed at the map a
     journal={arXiv preprint arXiv:2301.04634},
 }
     </pre>
-    <!-- Adjust the frame size based on the demo (Every project differs). -->
 </div>
 
 </body>
